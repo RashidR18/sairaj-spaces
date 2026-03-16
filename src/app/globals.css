@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #0f172a;
+    --foreground: #f8fafc;
+
+    --card: #1e293b;
+    --card-foreground: #f8fafc;
+
+    --popover: #0f172a;
+    --popover-foreground: #f8fafc;
+
+    --primary: #fbbf24;
+    --primary-foreground: #0f172a;
+
+    --secondary: #334155;
+    --secondary-foreground: #f8fafc;
+
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+
+    --accent: #fbbf24;
+    --accent-foreground: #0f172a;
+
+    --destructive: #ef4444;
+    --destructive-foreground: #f8fafc;
+
+    --border: #334155;
+    --input: #1e293b;
+    --ring: #fbbf24;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    background-image: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+    background-attachment: fixed;
+  }
+}
+
+/* Hide all scrollbars */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.glass {
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid rgba(255, 165, 0, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.glass-card {
+  background: rgba(20, 20, 20, 0.98);
+  border: 1px solid rgba(255, 165, 0, 0.1);
+}

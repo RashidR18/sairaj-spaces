@@ -1,0 +1,46 @@
+{
+  "hero": {
+    "title": "Build Your Dream With Sairaj-Spaces",
+    "subtitle": "Premium Construction and Builders Solutions",
+    "image": "/hero_bg.png"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "Sairaj-Spaces is a leading construction company committed to building spaces that inspire. With years of experience and a dedication to quality, we turn your dreams into reality.",
+    "image": "/about_bg.png"
+  },
+  "amenities": [
+    "24/7 Security",
+    "Lush Green Parks",
+    "Modern Gymnasium",
+    "Swimming Pool"
+  ],
+  "specifications": [
+    "Vitrified Tiles",
+    "Modular Kitchen",
+    "Premium Bathroom Fittings",
+    "Earthquake Resistant Structure"
+  ],
+  "specificationsImage": "/spec_bg.png",
+  "location": {
+    "address": "123 Builders Avenue, Mega City",
+    "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0864985289945!2d-122.41941558468205!3d37.7749295797598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c6c8f4459%3A0xb10ed6d9b5050f14!2sTwitter+HQ!5e0!3m2!1sen!2sus!4v1544670014237"
+  },
+  "contact": {
+    "number": "1234567899",
+    "email": "sairaj@gmail.com"
+  },
+  "adminProfile": {
+    "name": "Sairaj",
+    "email": "sairaj@gmail.com",
+    "profilePic": "",
+    "password": "sairaj123"
+  },
+  "footer": {
+    "description": "Sairaj-Spaces is dedicated to crafting premium living spaces with uncompromised quality.",
+    "facebook": "#",
+    "twitter": "#",
+    "instagram": "#",
+    "linkedin": "#"
+  }
+}

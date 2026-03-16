@@ -1,0 +1,81 @@
+﻿
+> sairaj-spaces@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.14
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+node.exe : 
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (:String  
+  ) [], RemoteException
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+Failed to compile.
+
+./src/app/admin/page.tsx
+12:36  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/no-
+explicit-any
+68:64  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/no-
+explicit-any
+317:69  Error: `"` can be 
+escaped with `&quot;`, 
+`&ldquo;`, `&#34;`, 
+`&rdquo;`.  
+react/no-unescaped-entities
+317:73  Error: `"` can be 
+escaped with `&quot;`, 
+`&ldquo;`, `&#34;`, 
+`&rdquo;`.  
+react/no-unescaped-entities
+
+./src/app/api/content/route.t
+s
+11:12  Error: 'error' is 
+defined but never used.  @typ
+escript-eslint/no-unused-vars
+21:12  Error: 'error' is 
+defined but never used.  @typ
+escript-eslint/no-unused-vars
+
+./src/components/LandingPage.
+tsx
+5:31  Error: 'Building' is 
+defined but never used.  @typ
+escript-eslint/no-unused-vars
+8:69  Error: Unexpected any. 
+Specify a different type.  @t
+ypescript-eslint/no-explicit-
+any
+226:49  Error: `'` can be 
+escaped with `&apos;`, 
+`&lsquo;`, `&#39;`, 
+`&rsquo;`.  
+react/no-unescaped-entities
+
+./src/components/Navbar.tsx
+8:56  Error: Unexpected any. 
+Specify a different type.  @t
+ypescript-eslint/no-explicit-
+any
+
+info  - Need to disable some 
+ESLint rules? Learn more 
+here: https://nextjs.org/docs
+/basic-features/eslint#disabl
+ing-rules
