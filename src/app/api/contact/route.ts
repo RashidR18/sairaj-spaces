@@ -34,7 +34,25 @@ export async function GET() {
     await dbConnect();
     const contacts = await Contact.find({}).sort({ createdAt: -1 });
     return NextResponse.json(contacts);
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    await dbConnect();
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    await Contact.findByIdAndDelete(id);
+    return NextResponse.json({ success: true, message: "Message deleted successfully" });
+  } catch (error: any) {
+    console.error("Delete error:", error);
+    return NextResponse.json({ error: error.message || "Failed to delete message" }, { status: 500 });
   }
 }

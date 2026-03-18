@@ -3,22 +3,20 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Phone, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function Navbar({ navData }: { navData: any }) {
+export default function Navbar({ navData, onCategorySelect }: { navData: any, onCategorySelect?: (category: string) => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  const [activeSection, setActiveSection] = useState("");
+  const [activeSection, setActiveSection] = useState("home");
+  const [isProjectsHovered, setIsProjectsHovered] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-
-      // Detect active section
-      const sections = ["home", "about", "amenities", "specifications", "location", "contact"];
-      let current = "";
+      const sections = ["home", "about", "projects", "contact"];
+      let current = "home";
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -37,52 +35,121 @@ export default function Navbar({ navData }: { navData: any }) {
 
   const navLinks = [
     { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Amenities", href: "#amenities" },
-    { name: "Specifications", href: "#specifications" },
-    { name: "Location", href: "#location" },
-    { name: "Contact", href: "#contact" },
+    { name: "About us", href: "#about" },
+    { name: "Projects", href: "#projects", hasDropdown: true },
+    { name: "Contact us", href: "#contact" },
+  ];
+
+  const projectCategories = [
+    "All",
+    "Residential",
+    "Commercial",
+    "Infrastructure",
+    "Completed Projects",
+    "Ongoing",
+    "Upcoming",
   ];
 
   return (
     <nav
-      className="fixed w-full z-50 transition-all duration-500 bg-[#0f172a] py-4 shadow-2xl"
+      className={`fixed w-full z-50 transition-all duration-500 ${
+        scrolled
+          ? "bg-white/95 backdrop-blur-md shadow-lg py-3"
+          : "bg-white/90 backdrop-blur-sm py-5"
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <Link href="/" className="text-3xl font-bold tracking-tighter text-white">
-            Sairaj<span className="text-amber">-Spaces</span>
+          {/* Logo */}
+          <Link
+            href="/"
+            className="text-xl font-bold tracking-tight text-[#2563eb] hover:text-[#1d4ed8] transition-colors"
+          >
+            {navData?.site?.siteName || "Sairaj Spaces"}
           </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
+              if (link.hasDropdown) {
+                return (
+                  <div
+                    key={link.name}
+                    className="relative"
+                    onMouseEnter={() => setIsProjectsHovered(true)}
+                    onMouseLeave={() => setIsProjectsHovered(false)}
+                  >
+                    <a
+                      href={link.href}
+                      className={`text-sm font-medium transition-all duration-200 flex items-center gap-1 ${
+                        isActive
+                          ? "text-[#2563eb] font-semibold"
+                          : "text-gray-600 hover:text-[#2563eb]"
+                      }`}
+                    >
+                      {link.name}
+                      <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-300 ${
+                          isProjectsHovered ? "rotate-180 text-[#2563eb]" : ""
+                        }`}
+                      />
+                    </a>
+
+                    <AnimatePresence>
+                      {isProjectsHovered && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden py-2"
+                        >
+                          {projectCategories.map((cat) => (
+                            <a
+                              key={cat}
+                              href="#projects"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onCategorySelect?.(cat);
+                                setIsProjectsHovered(false);
+                                document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                              }}
+                              className="block px-5 py-3 text-sm text-gray-600 hover:bg-[#eff6ff] hover:text-[#2563eb] transition-colors font-medium border-l-4 border-transparent hover:border-[#2563eb]"
+                            >
+                              {cat}
+                            </a>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
               return (
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`text-sm font-bold transition-all uppercase tracking-widest transform ${
-                    isActive 
-                      ? "text-amber scale-125 font-black" 
-                      : scrolled ? "text-slate-300 hover:text-amber hover:scale-110" : "text-white/80 hover:text-amber hover:scale-110"
+                  className={`text-sm font-medium transition-all duration-200 relative group ${
+                    isActive
+                      ? "text-[#2563eb] font-semibold"
+                      : "text-gray-600 hover:text-[#2563eb]"
                   }`}
                 >
                   {link.name}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-[#2563eb] transition-all duration-300 ${
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
                 </a>
               );
             })}
-            <a
-              href={`tel:${navData?.contact?.number || "1234567899"}`}
-              className={`text-sm font-bold transition-all uppercase tracking-widest hover:scale-110 transform ${
-                scrolled ? "text-slate-300 hover:text-amber" : "text-white/80 hover:text-amber"
-              }`}
-            >
-              {navData?.contact?.number || "1234567899"}
-            </a>
+            {/* Admin Button */}
             <Link
               href="/admin"
-              className="px-6 py-2.5 rounded-xl text-sm font-black transition-all uppercase tracking-widest transform hover:-translate-y-1 bg-white text-black hover:bg-[#e0f2fe] hover:text-[#0c4a6e] shadow-lg shadow-black/5 hover:shadow-sky-200/50"
+              className="px-5 py-2 rounded-lg text-sm font-semibold bg-[#2563eb] text-white hover:bg-[#1d4ed8] transition-all duration-200 shadow-md hover:shadow-blue-300/50 hover:-translate-y-0.5 transform active:scale-95"
             >
               Admin
             </Link>
@@ -92,56 +159,74 @@ export default function Navbar({ navData }: { navData: any }) {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 transition-colors text-white"
+              className="p-2 transition-colors text-gray-700 hover:text-[#2563eb]"
+              aria-label="Toggle menu"
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+              {isOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 20 }}
-          className="md:hidden fixed inset-y-0 right-0 w-3/4 bg-midnight/95 backdrop-blur-xl border-l border-white/5 shadow-2xl z-[60]"
-        >
-          <div className="p-8 flex flex-col h-full space-y-6">
-            <div className="flex justify-end">
-               <button onClick={() => setIsOpen(false)} className="text-white hover:text-amber"><X size={32}/></button>
-            </div>
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="text-2xl font-bold text-white hover:text-amber transition-all"
-              >
-                {link.name}
-              </a>
-            ))}
-            <a
-              href={`tel:${navData?.contact?.number || "1234567899"}`}
-              onClick={() => setIsOpen(false)}
-              className="text-2xl font-bold text-white hover:text-amber transition-all"
-            >
-              {navData?.contact?.number || "1234567899"}
-            </a>
-            <div className="pt-4">
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-white border-t border-gray-100 shadow-xl"
+          >
+            <div className="px-6 py-6 flex flex-col space-y-5">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.substring(1);
+                return (
+                  <div key={link.name}>
+                    <a
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`text-base font-medium transition-colors flex items-center justify-between ${
+                        isActive ? "text-[#2563eb] font-semibold" : "text-gray-600 hover:text-[#2563eb]"
+                      }`}
+                    >
+                      {link.name}
+                      {link.hasDropdown && <ChevronDown size={18} />}
+                    </a>
+                    {link.hasDropdown && (
+                      <div className="mt-2 ml-4 flex flex-col space-y-2 border-l-2 border-gray-100 pl-4">
+                        {projectCategories.map((cat) => (
+                          <a
+                            key={cat}
+                            href="#projects"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              onCategorySelect?.(cat);
+                              setIsOpen(false);
+                              document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                            }}
+                            className="text-sm text-gray-500 hover:text-[#2563eb] py-1 flex items-center gap-2"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-gray-200" />
+                            {cat}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
               <Link
                 href="/admin"
                 onClick={() => setIsOpen(false)}
-                className="w-full py-4 text-center rounded-2xl bg-amber text-midnight font-black text-xl flex items-center justify-center space-x-3 shadow-2xl shadow-amber/30 hover:bg-white transition-all transform active:scale-95"
+                className="w-full py-3 text-center rounded-lg bg-[#2563eb] text-white font-semibold text-sm hover:bg-[#1d4ed8] transition-all shadow-md active:scale-95"
               >
-                <span>Admin Portal</span>
-                <ChevronRight size={24} />
+                Admin
               </Link>
             </div>
-          </div>
-        </motion.div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

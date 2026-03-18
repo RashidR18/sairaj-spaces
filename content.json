@@ -1,13 +1,37 @@
 {
+  "adminProfile": {
+    "name": "Sairaj Admin",
+    "email": "sairaj@gmail.com",
+    "profilePic": "",
+    "password": "sairaj123"
+  },
+  "site": {
+    "siteName": "Sairaj Spaces",
+    "logo": "/logo.png"
+  },
   "hero": {
-    "title": "Build Your Dream With Sairaj-Spaces",
-    "subtitle": "Premium Construction and Builders Solutions",
-    "image": "/hero_bg.png"
+    "title": "Build Your Dream Home with Trusted Construction Experts.",
+    "subtitle": "We provide high-quality residential and commercial construction services with experienced engineers and modern technology.",
+    "image": "/content_1773833405237.png"
   },
   "about": {
-    "title": "About Us",
-    "description": "Sairaj-Spaces is a leading construction company committed to building spaces that inspire. With years of experience and a dedication to quality, we turn your dreams into reality.",
-    "image": "/about_bg.png"
+    "title": "About Sairaj Spaces",
+    "description": "Excellence and durability built into every structure, designed to transform your vision into a living reality.",
+    "whoWeAre": {
+      "title": "Excellence in Construction",
+      "image": "/who_we_are.png",
+      "description": "Sairaj Spaces is a professional construction company with extensive experience in building residential homes, commercial buildings, and infrastructure projects. We are committed to delivering high-quality construction services while maintaining safety, transparency, and customer satisfaction."
+    },
+    "mission": {
+      "title": "Building with Purpose",
+      "image": "/mission_house.png",
+      "description": "Our mission is to build strong, safe, and modern structures that improve the quality of life for our clients and communities. We strive to exceed expectations through innovative engineering, sustainable practices, and an unwavering dedication to craftsmanship."
+    },
+    "vision": {
+      "title": "Leading the Future",
+      "image": "/vision_blueprint.png",
+      "description": "Our vision is to become a globally trusted construction leader known for quality, innovation, and reliability. We aspire to set the benchmark for industry excellence, fostering a world where every task, event, and construction opportunity is executed with precision."
+    }
   },
   "amenities": [
     "24/7 Security",
@@ -22,6 +46,94 @@
     "Earthquake Resistant Structure"
   ],
   "specificationsImage": "/spec_bg.png",
+  "team": [
+    {
+      "image": "/team_member_1.png",
+      "name": "Rajesh Sharma",
+      "role": "Chief Engineer",
+      "experience": "15+ Years",
+      "rating": 4.9
+    },
+    {
+      "image": "/team_member_2.png",
+      "name": "Anita Patil",
+      "role": "Lead Architect",
+      "experience": "12+ Years",
+      "rating": 4.8
+    },
+    {
+      "image": "/team_member_3.png",
+      "name": "Vikram Mehta",
+      "role": "Project Manager",
+      "experience": "10+ Years",
+      "rating": 4.7
+    }
+  ],
+  "projects": [
+    {
+      "image": "/luxury_villa.png",
+      "title": "Luxury Villa",
+      "location": "Lonavala",
+      "type": "Residential",
+      "status": "Ongoing"
+    },
+    {
+      "image": "/modern_office.png",
+      "title": "Corporate Hub",
+      "location": "Pune",
+      "type": "Commercial",
+      "status": "Ongoing"
+    },
+    {
+      "image": "/apartment_complex.png",
+      "title": "Skyline Residency",
+      "location": "Mumbai",
+      "type": "Residential",
+      "status": "Ongoing"
+    },
+    {
+      "image": "/project_residential.png",
+      "title": "Sairaj Homes",
+      "location": "Mumbai",
+      "type": "Residential",
+      "status": "Completed Projects"
+    },
+    {
+      "image": "/project_retail.png",
+      "title": "Sairaj Plaza",
+      "location": "Nashik",
+      "type": "Commercial",
+      "status": "Completed Projects"
+    },
+    {
+      "image": "/project_suburban.png",
+      "title": "Metro Hub",
+      "location": "Pune",
+      "type": "Infrastructure",
+      "status": "Completed Projects"
+    },
+    {
+      "image": "/upcoming_project_1.png",
+      "title": "Sustainable Glass Towers",
+      "location": "Mumbai",
+      "type": "Residential",
+      "status": "Upcoming"
+    },
+    {
+      "image": "/upcoming_project_2.png",
+      "title": "Smart Valley Villa",
+      "location": "Lonavala",
+      "type": "Residential",
+      "status": "Upcoming"
+    },
+    {
+      "image": "/completed_project_extra.png",
+      "title": "Metro Plaza HQ",
+      "location": "Pune",
+      "type": "Commercial",
+      "status": "Completed Projects"
+    }
+  ],
   "location": {
     "address": "123 Builders Avenue, Mega City",
     "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0864985289945!2d-122.41941558468205!3d37.7749295797598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c6c8f4459%3A0xb10ed6d9b5050f14!2sTwitter+HQ!5e0!3m2!1sen!2sus!4v1544670014237"
@@ -30,17 +142,32 @@
     "number": "1234567899",
     "email": "sairaj@gmail.com"
   },
-  "adminProfile": {
-    "name": "Sairaj",
-    "email": "sairaj@gmail.com",
-    "profilePic": "",
-    "password": "sairaj123"
-  },
   "footer": {
     "description": "Sairaj-Spaces is dedicated to crafting premium living spaces with uncompromised quality.",
     "facebook": "#",
     "twitter": "#",
     "instagram": "#",
-    "linkedin": "#"
+    "linkedin": "#",
+    "bgImage": "/footer_city_bg_v2.jpg"
+  },
+  "services": [
+    {
+      "image": "/luxury_villa.png",
+      "title": "Luxury Villa",
+      "description": "Premium modern villa construction with high-quality materials and elegant architectural design."
+    },
+    {
+      "image": "/modern_office.png",
+      "title": "Modern Office Building",
+      "description": "Contemporary office spaces designed for functionality, efficiency, and modern business needs."
+    },
+    {
+      "image": "/apartment_complex.png",
+      "title": "Apartment Complex",
+      "description": "Large residential apartment projects with comfortable living spaces and modern amenities."
+    }
+  ],
+  "heroDecor": {
+    "rightImage": "/hero_right_bg.png"
   }
 }

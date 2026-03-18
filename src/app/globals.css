@@ -46,14 +46,22 @@
   }
 }
 
-/* Hide all scrollbars */
-* {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+/* Custom Scrollbar Styling (Optional but recommended for premium feel) */
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-*::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #fbbf24;
 }
 
 .glass {
@@ -65,4 +73,14 @@
 .glass-card {
   background: rgba(20, 20, 20, 0.98);
   border: 1px solid rgba(255, 165, 0, 0.1);
+}
+
+@keyframes float {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  50%  { transform: translateY(-12px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
