@@ -23,8 +23,108 @@ import { useState, useRef, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import Input from "./ui/Input";
 
+const defaultServices = [
+  {
+    image: "/luxury_villa.png",
+    title: "Luxury Villa",
+    description: "Premium modern villa construction with high-quality materials and elegant architectural design."
+  },
+  {
+    image: "/modern_office.png",
+    title: "Modern Office Building",
+    description: "Contemporary office spaces designed for functionality, efficiency, and modern business needs."
+  },
+  {
+    image: "/apartment_complex.png",
+    title: "Apartment Complex",
+    description: "Large residential apartment projects with comfortable living spaces and modern amenities."
+  }
+];
+
+const defaultProjects = [
+  {
+    image: "/project_residential.png",
+    title: "Modern Residential Complex",
+    location: "Pune",
+    type: "Residential",
+    status: "Completed Projects",
+  },
+  {
+    image: "/project_suburban.png",
+    title: "Luxury Suburban Villas",
+    location: "Pune",
+    type: "Commercial",
+    status: "Completed Projects",
+  },
+  {
+    image: "/project_retail.png",
+    title: "Retail Shopping Center",
+    location: "Pune",
+    type: "Infrastructure",
+    status: "Ongoing",
+  },
+  {
+    image: "/upcoming_project_1.png",
+    title: "Sustainable Glass Towers",
+    location: "Mumbai",
+    type: "Residential",
+    status: "Upcoming",
+  },
+  {
+    image: "/upcoming_project_2.png",
+    title: "Smart Valley Villa",
+    location: "Lonavala",
+    type: "Residential",
+    status: "Upcoming",
+  },
+  {
+    image: "/completed_project_extra.png",
+    title: "Metro Plaza HQ",
+    location: "Pune",
+    type: "Commercial",
+    status: "Completed Projects",
+  },
+];
+
+const projectCategories = [
+  "All",
+  "Residential",
+  "Commercial",
+  "Infrastructure",
+  "Completed Projects",
+  "Ongoing",
+  "Upcoming",
+];
+
+const defaultTeam = [
+  {
+    image: "/team_member_1.png",
+    name: "Rajesh Sharma",
+    role: "Chief Engineer",
+    experience: "15+ Years",
+    rating: 4.9,
+  },
+  {
+    image: "/team_member_2.png",
+    name: "Vikram Mehta",
+    role: "Architecture Head",
+    experience: "12+ Years",
+    rating: 4.8,
+  },
+  {
+    image: "/team_member_3.png",
+    name: "Sneha Patil",
+    role: "Project Manager",
+    experience: "10+ Years",
+    rating: 5.0,
+  },
+];
+
 export default function LandingPage({ initialData }: { initialData: any }) {
   const data = initialData || {};
+  const services = data.services || defaultServices;
+  const allProjects = data.projects || defaultProjects;
+  const team = data.team || defaultTeam;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -111,81 +211,6 @@ export default function LandingPage({ initialData }: { initialData: any }) {
     }
   };
 
-  // Services data
-  const services = data.services || [
-    {
-      image: "/luxury_villa.png",
-      title: "Luxury Villa",
-      description: "Premium modern villa construction with high-quality materials and elegant architectural design."
-    },
-    {
-      image: "/modern_office.png",
-      title: "Modern Office Building",
-      description: "Contemporary office spaces designed for functionality, efficiency, and modern business needs."
-    },
-    {
-      image: "/apartment_complex.png",
-      title: "Apartment Complex",
-      description: "Large residential apartment projects with comfortable living spaces and modern amenities."
-    }
-  ];
-
-  // Projects data
-  const allProjects = data.projects || [
-    {
-      image: "/project_residential.png",
-      title: "Modern Residential Complex",
-      location: "Pune",
-      type: "Residential",
-      status: "Completed Projects",
-    },
-    {
-      image: "/project_suburban.png",
-      title: "Luxury Suburban Villas",
-      location: "Pune",
-      type: "Commercial",
-      status: "Completed Projects",
-    },
-    {
-      image: "/project_retail.png",
-      title: "Retail Shopping Center",
-      location: "Pune",
-      type: "Infrastructure",
-      status: "Ongoing",
-    },
-    {
-      image: "/upcoming_project_1.png",
-      title: "Sustainable Glass Towers",
-      location: "Mumbai",
-      type: "Residential",
-      status: "Upcoming",
-    },
-    {
-      image: "/upcoming_project_2.png",
-      title: "Smart Valley Villa",
-      location: "Lonavala",
-      type: "Residential",
-      status: "Upcoming",
-    },
-    {
-      image: "/completed_project_extra.png",
-      title: "Metro Plaza HQ",
-      location: "Pune",
-      type: "Commercial",
-      status: "Completed Projects",
-    },
-  ];
-
-  const projectCategories = [
-    "All",
-    "Residential",
-    "Commercial",
-    "Infrastructure",
-    "Completed Projects",
-    "Ongoing",
-    "Upcoming",
-  ];
-
   const filteredProjects = allProjects.filter((p: any) => {
     const matchesSearch =
       p.title.toLowerCase().includes(projectSearch.toLowerCase()) ||
@@ -199,31 +224,6 @@ export default function LandingPage({ initialData }: { initialData: any }) {
 
     return matchesSearch && matchesCategory;
   }).slice(0, 6);
-
-  // Team data
-  const team = data.team || [
-    {
-      image: "/team_member_1.png",
-      name: "Rajesh Sharma",
-      role: "Chief Engineer",
-      experience: "15+ Years",
-      rating: 4.9,
-    },
-    {
-      image: "/team_member_2.png",
-      name: "Anita Patil",
-      role: "Lead Architect",
-      experience: "12+ Years",
-      rating: 4.8,
-    },
-    {
-      image: "/team_member_3.png",
-      name: "Vikram Mehta",
-      role: "Project Manager",
-      experience: "10+ Years",
-      rating: 4.7,
-    },
-  ];
 
   return (
     <div className="bg-gray-50 min-h-screen text-gray-900 font-sans">
