@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,6 +21,7 @@ import {
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-hot-toast";
+import Input from "./ui/Input";
 
 export default function LandingPage({ initialData }: { initialData: any }) {
   const data = initialData || {};
@@ -32,6 +32,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
     subject: "",
     message: "",
   });
+  const [errors, setErrors] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [projectSearch, setProjectSearch] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -49,52 +50,62 @@ export default function LandingPage({ initialData }: { initialData: any }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const validateField = (name: string, value: string) => {
+    let error = "";
+    switch (name) {
+      case "name":
+        if (!value.trim() || value.trim().length < 2) error = "Please enter a valid name";
+        break;
+      case "email":
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) error = "Please enter a valid email address";
+        break;
+      case "phone":
+        const cleanPhone = value.replace(/\D/g, "");
+        if (cleanPhone.length !== 10) {
+          error = "Contact number must be exactly 10 digits";
+        } else if (/^[1-4]/.test(cleanPhone)) {
+          error = "Invalid format. Start with 5-9";
+        }
+        break;
+      case "subject":
+        if (!value.trim() || value.trim().length < 3) error = "Min 3 characters";
+        break;
+      case "message":
+        if (!value.trim() || value.trim().length < 10) error = "Min 10 characters";
+        break;
+    }
+    setErrors((prev: Record<string, string>) => ({ ...prev, [name]: error }));
+    return error === "";
+  };
+
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const isValid = Object.keys(formData).every(key => 
+      validateField(key, formData[key as keyof typeof formData])
+    );
 
-    if (!formData.name.trim() || formData.name.trim().length < 2) {
-      toast.error("Please enter a valid name");
-      return;
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast.error("Please enter a valid email address");
-      return;
-    }
-    const cleanPhone = formData.phone.replace(/\D/g, "");
-    if (cleanPhone.length !== 10) {
-      toast.error("Contact number must be exactly 10 digits");
-      return;
-    }
-    if (/^[1-4]/.test(cleanPhone)) {
-      toast.error("Invalid Indian contact number. Should not start with 1, 2, 3, or 4");
-      return;
-    }
-    if (!formData.subject.trim() || formData.subject.trim().length < 3) {
-      toast.error("Please enter a subject (min 3 characters)");
-      return;
-    }
-    if (!formData.message.trim() || formData.message.trim().length < 10) {
-      toast.error("Message should be at least 10 characters long");
-      return;
-    }
+    if (!isValid) return;
 
     setLoading(true);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, phone: cleanPhone }),
+        body: JSON.stringify({ ...formData, phone: formData.phone.replace(/\D/g, "") }),
       });
       const result = await res.json();
       if (res.ok) {
         toast.success("Message sent successfully");
         setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+        setErrors({});
       } else {
         toast.error(result.message || "Failed to send message");
       }
-    } catch (err: any) {
-      toast.error(`Error: ${err.message || "Network error"}`);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Network error";
+      toast.error(`Error: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -187,7 +198,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
       p.status === selectedCategory;
 
     return matchesSearch && matchesCategory;
-  });
+  }).slice(0, 6);
 
   // Team data
   const team = data.team || [
@@ -219,74 +230,78 @@ export default function LandingPage({ initialData }: { initialData: any }) {
       <Navbar navData={data} onCategorySelect={setSelectedCategory} />
 
       {/* ───────────────────────── HERO SECTION ───────────────────────── */}
+      {/* ───────────────────────── HERO SECTION ───────────────────────── */}
       <section
         id="home"
-        className="relative min-h-screen overflow-hidden bg-white"
+        className="relative bg-white"
       >
-        {/* Background Layer with Dual Image Split (Mid-point) */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src={data.hero?.image || "/hero_replica_bg.png"}
-            alt="Hero Background"
-            fill
-            className="object-cover"
-            priority
-          />
+        {/* Full Viewport Background Area */}
+        <div className="relative h-screen min-h-[700px] w-full overflow-hidden">
+          {/* Background Layer */}
+          <div className="absolute inset-0 z-0 bg-[#f8fafc]">
+            <Image
+              src={data.hero?.image || "/hero_replica_bg.png"}
+              alt="Hero Background"
+              fill
+              className="object-cover object-top scale-110 lg:scale-100 transition-transform duration-1000"
+              priority
+            />
 
-          {/* Blue Geometric Decorations */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute -top-10 -right-10 w-96 h-96 opacity-40">
-              <svg viewBox="0 0 100 100" className="w-full h-full fill-none stroke-[#2563eb]" strokeWidth="0.5">
-                <path d="M 100,0 L 0,100 M 100,20 L 20,100 M 100,40 L 40,100" />
-              </svg>
+            {/* Blue Geometric Decorations */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <div className="absolute -top-10 -right-10 w-96 h-96 opacity-40">
+                <svg viewBox="0 0 100 100" className="w-full h-full fill-none stroke-[#2563eb]" strokeWidth="0.5">
+                  <path d="M 100,0 L 0,100 M 100,20 L 20,100 M 100,40 L 40,100" />
+                </svg>
+              </div>
+              <div className="absolute bottom-10 -right-20 w-80 h-80 opacity-60">
+                <svg viewBox="0 0 100 100" className="w-full h-full stroke-[#2563eb]" strokeWidth="1" fill="none">
+                  <path d="M 100,100 L 0,0 M 100,70 L 30,0" />
+                </svg>
+              </div>
             </div>
-            <div className="absolute bottom-10 -right-20 w-80 h-80 opacity-60">
-              <svg viewBox="0 0 100 100" className="w-full h-full stroke-[#2563eb]" strokeWidth="1" fill="none">
-                <path d="M 100,100 L 0,0 M 100,70 L 30,0" />
-              </svg>
-            </div>
+          </div>
+
+          {/* Content Layer (Fold 1) */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex justify-end items-start pt-32">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="w-full max-w-sm bg-white/95 backdrop-blur-md p-8 md:p-10 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)] border border-gray-100 mr-0 md:mr-4"
+            >
+              <h1 className="text-2xl md:text-3xl font-extrabold text-[#2563eb] leading-[1.3] mb-6 tracking-tight">
+                {data.hero?.title || "Build Your Dream Home with Trusted Construction Experts."}
+              </h1>
+              <p className="text-xs md:text-sm text-gray-500 mb-10 leading-relaxed font-medium">
+                {data.hero?.subtitle || "We provide high-quality residential and commercial construction services with experienced engineers and modern technology."}
+              </p>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="#projects"
+                  className="w-full py-3.5 bg-[#4285f4] text-white hover:bg-[#3b71db] font-extrabold text-xs rounded-xl transition-all shadow-lg shadow-blue-500/25 active:scale-95 transform text-center"
+                >
+                  View Projects
+                </a>
+                <a
+                  href="#contact"
+                  className="w-full py-3.5 bg-white text-[#4285f4] font-extrabold text-xs rounded-xl transition-all border-2 border-[#4285f4]/30 hover:bg-[#f0f7ff] active:scale-95 transform text-center"
+                >
+                  Contact Us
+                </a>
+              </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Content Layer */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-end items-center min-h-screen pt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="w-full max-w-sm bg-white/95 backdrop-blur-md p-8 md:p-10 rounded-3xl shadow-[0_20px_50px_-15px_rgba(0,0,0,0.12)] border border-gray-100 mr-0 md:mr-4"
-          >
-            <h1 className="text-2xl md:text-3xl font-extrabold text-[#2563eb] leading-[1.3] mb-6 tracking-tight">
-              {data.hero?.title || "Build Your Dream Home with Trusted Construction Experts."}
-            </h1>
-            <p className="text-xs md:text-sm text-gray-400 mb-10 leading-relaxed font-medium">
-              {data.hero?.subtitle || "We provide high-quality residential and commercial construction services with experienced engineers and modern technology."}
-            </p>
-            <div className="flex flex-col gap-3">
-              <a
-                href="#projects"
-                className="w-full py-3.5 bg-[#4285f4] text-white hover:bg-[#3b71db] font-extrabold text-xs rounded-xl transition-all shadow-lg shadow-blue-500/25 active:scale-95 transform text-center"
-              >
-                View Projects
-              </a>
-              <a
-                href="#contact"
-                className="w-full py-3.5 bg-white text-[#4285f4] font-extrabold text-xs rounded-xl transition-all border-2 border-[#4285f4]/30 hover:bg-[#f0f7ff] active:scale-95 transform text-center"
-              >
-                Contact Us
-              </a>
-            </div>
-          </motion.div>
-        </div>
-
         {/* ───────────────────── HIGH-QUALITY CONSTRUCTION SERVICES (Part of Hero) ───────────────────── */}
-        <div className="relative z-10 bg-gray-100 pt-24 pb-32">
+        <div className="relative z-10 bg-white pt-16 pb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-16"
+              className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-5">
                 High-Quality Construction Services
@@ -306,7 +321,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   whileHover={{ y: -12, transition: { duration: 0.3 } }}
                   transition={{ duration: 0.6, delay: i * 0.12 }}
-                  className="group bg-white rounded-3xl overflow-hidden shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] border border-gray-50 flex flex-col transition-all duration-500"
+                  className="group bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_45px_100px_-20px_rgba(0,0,0,0.12)] border border-gray-100 flex flex-col transition-all duration-500"
                 >
                   <div className="relative h-72 overflow-hidden">
                     <Image
@@ -338,8 +353,9 @@ export default function LandingPage({ initialData }: { initialData: any }) {
         </div>
       </section>
 
-      {/* ───────────────────────── ABOUT SECTION ───────────────────────── */}
-      <section id="about" className="py-24 bg-white overflow-hidden">
+      {/* ───────────────────────── ABOUT & TEAM SECTION ───────────────────────── */}
+      <div id="about">
+        <section className="pt-16 pb-16 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div
@@ -347,7 +363,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-24"
+            className="text-center mb-8"
           >
             <p className="text-[#2563eb] font-black text-[10px] uppercase tracking-[0.4em] mb-4">
               Our Core
@@ -360,7 +376,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
             </p>
           </motion.div>
 
-          <div className="space-y-32">
+          <div className="space-y-20">
             {/* 01. WHO WE ARE */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
               <motion.div
@@ -494,13 +510,13 @@ export default function LandingPage({ initialData }: { initialData: any }) {
       </section>
 
       {/* ───────────────────────── EXPERT TEAM SECTION ───────────────────────── */}
-      <section className="py-24 bg-gray-100">
+      <section className="py-16 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
             <h3 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
               Our Expert Team
@@ -551,9 +567,10 @@ export default function LandingPage({ initialData }: { initialData: any }) {
           </div>
         </div>
       </section>
+    </div>
 
       {/* ───────────────────────── PROJECTS SECTION ───────────────────────── */}
-      <section id="projects" className="py-24 bg-white">
+      <section id="projects" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -578,16 +595,13 @@ export default function LandingPage({ initialData }: { initialData: any }) {
             className="mb-10"
           >
             <div className="relative flex flex-col md:flex-row items-stretch md:items-center gap-4 border-2 border-[#2563eb]/40 rounded-xl bg-white shadow-sm p-2">
-              <div className="relative flex-1 flex items-center">
-                <Search size={18} className="absolute left-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="search"
-                  value={projectSearch}
-                  onChange={(e) => setProjectSearch(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 text-gray-700 bg-transparent outline-none placeholder-gray-400 text-sm"
-                />
-              </div>
+              <Input
+                label="Search projects..."
+                value={projectSearch}
+                onChange={(e) => setProjectSearch(e.target.value)}
+                leftIcon={<Search size={18} />}
+                className="bg-transparent border-none ring-0 shadow-none !min-h-0"
+              />
 
               {/* Dropdown Filter */}
               <div className="relative" ref={filterRef}>
@@ -686,7 +700,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
       </section>
 
       {/* ───────────────────────── CONTACT SECTION ───────────────────────── */}
-      <section id="contact" className="py-24 bg-gray-100 relative overflow-hidden">
+      <section id="contact" className="py-16 bg-gray-100 relative overflow-hidden">
         {/* Subtle dot grid */}
         <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -782,81 +796,70 @@ export default function LandingPage({ initialData }: { initialData: any }) {
                   className="grid md:grid-cols-2 gap-6"
                 >
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Your name"
-                      maxLength={100}
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 transition-all font-medium text-sm"
-                    />
+                  <Input
+                    label="Full Name"
+                    required
+                    maxLength={100}
+                    value={formData.name}
+                    error={errors.name}
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      validateField("name", e.target.value);
+                    }}
+                  />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="example@mail.com"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 transition-all font-medium text-sm"
-                    />
+                  <Input
+                    label="Email Address"
+                    type="email"
+                    required
+                    value={formData.email}
+                    error={errors.email}
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                      validateField("email", e.target.value);
+                    }}
+                  />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
-                      Contact Number
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="+91 98765 43210"
-                      maxLength={15}
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 transition-all font-medium text-sm"
-                    />
+                  <Input
+                    label="Contact Number"
+                    type="tel"
+                    required
+                    maxLength={15}
+                    value={formData.phone}
+                    error={errors.phone}
+                    onChange={(e) => {
+                      setFormData({ ...formData, phone: e.target.value });
+                      validateField("phone", e.target.value);
+                    }}
+                  />
                   </div>
-                  <div className="md:col-span-2 space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
-                      Subject
-                    </label>
-                    <input
-                      type="text"
+                  <div className="md:col-span-2">
+                    <Input
+                      label="Subject"
                       required
-                      placeholder="How can we help you?"
                       maxLength={200}
                       value={formData.subject}
-                      onChange={(e) =>
-                        setFormData({ ...formData, subject: e.target.value })
-                      }
-                      className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 transition-all font-medium text-sm"
+                      error={errors.subject}
+                      onChange={(e) => {
+                        setFormData({ ...formData, subject: e.target.value });
+                        validateField("subject", e.target.value);
+                      }}
                     />
                   </div>
-                  <div className="md:col-span-2 space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
-                      Message
-                    </label>
-                    <textarea
+                  <div className="md:col-span-2">
+                    <Input
+                      label="Your Message"
+                      multiline
                       rows={4}
                       required
-                      placeholder="Tell us about your project..."
                       value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
-                      className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 transition-all resize-none leading-relaxed font-medium text-sm"
+                      error={errors.message}
+                      onChange={(e) => {
+                        setFormData({ ...formData, message: e.target.value });
+                        validateField("message", e.target.value);
+                      }}
                     />
                   </div>
                   <div className="md:col-span-2 pt-2">
@@ -886,7 +889,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
       </section>
 
       {/* ───────────────────────── FOOTER ───────────────────────── */}
-      <footer className="relative pt-16 pb-12 bg-[#040c14] overflow-hidden">
+      <footer className="relative pt-12 pb-10 bg-[#040c14] overflow-hidden">
         {/* City Skyline Background */}
         <div className="absolute inset-0 pointer-events-none">
           <Image

@@ -13,6 +13,7 @@ import {
 import Image from "next/image";
 import { toast, Toaster } from "react-hot-toast";
 import CropModal from "@/components/admin/CropModal";
+import Input from "@/components/ui/Input";
 
 export default function AdminPage() {
    const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -289,37 +290,33 @@ export default function AdminPage() {
                   </div>
 
                   <form onSubmit={handleLogin} className="space-y-4 lg:space-y-5">
-                     <div className="space-y-1.5">
-                        <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-4">Access ID</label>
-                        <input
-                           type="email"
-                           required
-                           value={email}
-                           onChange={(e) => setEmail(e.target.value)}
-                           placeholder="admin@sairajspaces.com"
-                           className="w-full bg-gray-50 border border-transparent rounded-2xl px-6 py-3 lg:py-4 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-500/30 focus:ring-4 focus:ring-blue-500/5 transition-all font-bold text-sm"
-                        />
-                     </div>
-                     <div className="space-y-1.5">
-                        <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-4">Security Key</label>
-                        <div className="relative">
-                           <input
-                              type={showPassword ? "text" : "password"}
-                              required
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
-                              placeholder="••••••••"
-                              className="w-full bg-gray-50 border border-transparent rounded-2xl px-6 py-3 lg:py-4 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-500/30 focus:ring-4 focus:ring-blue-500/5 transition-all font-bold text-sm pr-14"
-                           />
+                     <Input
+                        label="Access ID"
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        leftIcon={<User size={18} className="text-gray-400" />}
+                        className="mb-4"
+                     />
+
+                     <Input
+                        label="Security Key"
+                        type={showPassword ? "text" : "password"}
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        leftIcon={<Lock size={18} className="text-gray-400" />}
+                        rightIcon={
                            <button
                               type="button"
                               onClick={() => setShowPassword(!showPassword)}
-                              className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600 transition-colors"
+                              className="focus:outline-none"
                            >
                               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                            </button>
-                        </div>
-                     </div>
+                        }
+                     />
 
                      <button
                         type="submit"
@@ -483,15 +480,11 @@ export default function AdminPage() {
                      {/* Hero Settings */}
                      {activeTab === "hero" && (
                         <div className="bg-white p-8 lg:p-12 rounded-[2.5rem] lg:rounded-[3.5rem] border border-gray-100 shadow-sm space-y-8 lg:space-y-10">
-                           <div className="space-y-3">
-                              <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Main Landing Header</label>
-                              <input
-                                 type="text"
+                              <Input
+                                 label="Main Landing Header"
                                  value={data.hero?.title || ""}
                                  onChange={(e) => handleChange("hero", "title", e.target.value)}
-                                 className="w-full bg-gray-50 border-none rounded-3xl px-8 py-6 text-2xl font-black text-gray-900 focus:bg-white focus:ring-4 focus:ring-blue-500/5 transition-all outline-none"
                               />
-                           </div>
 
                            <div className="grid md:grid-cols-2 gap-10 pt-4">
                               <div className="space-y-3">
@@ -562,19 +555,19 @@ export default function AdminPage() {
                                     </div>
 
                                     <div className="space-y-4">
-                                       <input
-                                          type="text"
+                                       <Input
+                                          label="Service Title"
                                           placeholder="Service Title"
                                           value={service.title}
                                           onChange={(e) => handleItemChange("services", i, "title", e.target.value)}
-                                          className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 font-black text-gray-900 outline-none text-center"
                                        />
-                                       <textarea
+                                       <Input
+                                          label="Describe service..."
                                           placeholder="Describe service..."
+                                          multiline
+                                          rows={3}
                                           value={service.description}
                                           onChange={(e) => handleItemChange("services", i, "description", e.target.value)}
-                                          className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 font-bold text-gray-400 text-sm outline-none resize-none text-center"
-                                          rows={3}
                                        />
                                     </div>
                                  </div>
@@ -627,19 +620,17 @@ export default function AdminPage() {
                                         </div>
                                      </div>
                                      <div className="md:col-span-2 space-y-4">
-                                        <input
-                                           type="text"
-                                           placeholder="Feature Title"
+                                        <Input
+                                           label="Feature Title"
                                            value={data.about?.[sub]?.title || ""}
                                            onChange={(e) => handleNestedChange("about", sub, "title", e.target.value)}
-                                           className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 font-black text-gray-900 outline-none"
                                         />
-                                        <textarea
-                                           placeholder="Feature Narrative"
+                                        <Input
+                                           label="Feature Narrative"
+                                           multiline
+                                           rows={5}
                                            value={data.about?.[sub]?.description || ""}
                                            onChange={(e) => handleNestedChange("about", sub, "description", e.target.value)}
-                                           className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 font-bold text-gray-400 text-sm outline-none resize-none"
-                                           rows={5}
                                         />
                                      </div>
                                   </div>
@@ -938,42 +929,32 @@ export default function AdminPage() {
                            </div>
 
                            <div className="grid md:grid-cols-2 gap-8 pt-6">
-                              <div className="md:col-span-2 space-y-3">
-                                 <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Global Branding (Site Name)</label>
-                                 <input
-                                    type="text"
-                                    value={data.site?.siteName || ""}
-                                    onChange={(e) => handleChange("site", "siteName", e.target.value)}
-                                    className="w-full bg-blue-50/50 border-2 border-blue-100 rounded-2xl px-6 py-4 font-black text-blue-600 outline-none focus:bg-white transition-all"
-                                 />
-                              </div>
-                              <div className="space-y-3">
-                                 <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Display Identity</label>
-                                 <input
-                                    type="text"
-                                    value={data.adminProfile?.name || ""}
-                                    onChange={(e) => handleChange("adminProfile", "name", e.target.value)}
-                                    className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 font-bold text-gray-900 outline-none"
-                                 />
-                              </div>
-                              <div className="space-y-3">
-                                 <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Digital Signature (Email)</label>
-                                 <input
-                                    type="email"
-                                    value={data.adminProfile?.email || ""}
-                                    onChange={(e) => handleChange("adminProfile", "email", e.target.value)}
-                                    className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 font-bold text-gray-900 outline-none"
-                                 />
-                              </div>
-                              <div className="md:col-span-2 space-y-3">
-                                 <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Update Security Key</label>
-                                 <input
-                                    type="password"
-                                    placeholder="Enter new credential key..."
-                                    onChange={(e) => handleChange("adminProfile", "password", e.target.value)}
-                                    className="w-full bg-gray-50 border-none rounded-2xl px-6 py-4 font-bold text-gray-900 outline-none"
-                                 />
-                              </div>
+                               <div className="md:col-span-2">
+                                  <Input
+                                     label="Global Branding (Site Name)"
+                                     value={data.site?.siteName || ""}
+                                     onChange={(e) => handleChange("site", "siteName", e.target.value)}
+                                  />
+                               </div>
+                               <Input
+                                  label="Display Identity"
+                                  value={data.adminProfile?.name || ""}
+                                  onChange={(e) => handleChange("adminProfile", "name", e.target.value)}
+                               />
+                               <Input
+                                  label="Digital Signature (Email)"
+                                  type="email"
+                                  value={data.adminProfile?.email || ""}
+                                  onChange={(e) => handleChange("adminProfile", "email", e.target.value)}
+                               />
+                               <div className="md:col-span-2">
+                                  <Input
+                                     label="Update Security Key"
+                                     type="password"
+                                     placeholder="Enter new credential key..."
+                                     onChange={(e) => handleChange("adminProfile", "password", e.target.value)}
+                                  />
+                               </div>
                            </div>
                         </div>
                      )}
