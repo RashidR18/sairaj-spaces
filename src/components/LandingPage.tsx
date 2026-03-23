@@ -448,6 +448,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
@@ -467,6 +468,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
                 key={i}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
                 whileHover={{ y: -12, transition: { duration: 0.3 } }}
                 transition={{ duration: 0.6, delay: i * 0.12 }}
                 className="group bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_45px_100px_-20px_rgba(0,0,0,0.12)] border border-gray-100 flex flex-col transition-all duration-500"
@@ -722,6 +724,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
             className="mb-10 text-center"
           >
@@ -738,6 +741,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mb-10"
           >
@@ -803,6 +807,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
                 key={i}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
