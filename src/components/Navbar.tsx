@@ -55,8 +55,9 @@ export default function Navbar({ navData, onCategorySelect }: { navData: any, on
       className={`fixed w-full z-50 transition-all duration-500 ${
         scrolled
           ? "bg-white/95 backdrop-blur-md shadow-lg py-3"
-          : "bg-white/90 backdrop-blur-sm py-5"
+          : "py-5"
       }`}
+      style={!scrolled ? { background: "#e8eef8" } : {}}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">

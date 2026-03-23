@@ -479,38 +479,97 @@ export default function AdminPage() {
 
                      {/* Hero Settings */}
                      {activeTab === "hero" && (
-                        <div className="bg-white p-8 lg:p-12 rounded-[2.5rem] lg:rounded-[3.5rem] border border-gray-100 shadow-sm space-y-8 lg:space-y-10">
+                        <div className="bg-white p-8 lg:p-12 rounded-[2.5rem] lg:rounded-[3.5rem] border border-gray-100 shadow-sm space-y-10">
+                           <div className="space-y-6">
+                              <h3 className="text-xl font-black text-gray-900 tracking-tight">Main Banner Content</h3>
                               <Input
-                                 label="Main Landing Header"
+                                 label="Landing Header Title"
                                  value={data.hero?.title || ""}
                                  onChange={(e) => handleChange("hero", "title", e.target.value)}
                               />
-
-                           <div className="grid md:grid-cols-2 gap-10 pt-4">
                               <div className="space-y-3">
-                                 <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Hero Background Image</label>
-                                 <div className="relative aspect-[16/6] rounded-[2.5rem] overflow-hidden border-2 border-dashed border-gray-200 bg-gray-50 group">
-                                    {data.hero?.image ? (
-                                       <Image src={data.hero.image} alt="Hero" fill className="object-cover" />
+                                 <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Banner Description</label>
+                                 <textarea
+                                    rows={4}
+                                    value={data.hero?.subtitle || ""}
+                                    onChange={(e) => handleChange("hero", "subtitle", e.target.value)}
+                                    className="w-full bg-gray-50 border-none rounded-3xl px-8 py-6 font-bold text-gray-500 leading-relaxed focus:bg-white focus:ring-4 focus:ring-blue-500/5 transition-all outline-none resize-none"
+                                 />
+                              </div>
+                           </div>
+
+                           <div className="grid md:grid-cols-2 gap-10 pt-6 border-t border-gray-50">
+                              {/* Primary Image */}
+                              <div className="space-y-3">
+                                 <label className="text-xs font-black text-blue-600 uppercase tracking-[0.2em] ml-1">Primary Architectural Model</label>
+                                 <div className="relative aspect-square rounded-[2.5rem] overflow-hidden border-2 border-dashed border-gray-200 bg-gray-50 group">
+                                    {data.hero?.primaryImage ? (
+                                       <Image src={data.hero.primaryImage} alt="Primary" fill className="object-cover" />
                                     ) : (
                                        <div className="absolute inset-0 flex items-center justify-center text-gray-300"><ImageIcon size={48} /></div>
                                     )}
                                     <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-all cursor-pointer flex items-center justify-center">
                                        <label className="cursor-pointer bg-white/90 p-4 rounded-2xl shadow-xl opacity-0 group-hover:opacity-100 transition-opacity">
                                           <Upload className="text-blue-600" />
-                                          <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, "hero", "image")} />
+                                          <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, "hero", "primaryImage")} />
                                        </label>
                                     </div>
                                  </div>
-                                 <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest text-center">Recommended: 1920x800 Wide Image</p>
+                                 <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest text-center">Main focal point cutout</p>
                               </div>
-                              <div className="space-y-3 flex flex-col justify-center">
-                                 <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Banner Description</label>
-                                 <textarea
-                                    rows={5}
-                                    value={data.hero?.subtitle || ""}
-                                    onChange={(e) => handleChange("hero", "subtitle", e.target.value)}
-                                    className="w-full bg-gray-50 border-none rounded-3xl px-8 py-6 font-bold text-gray-500 leading-relaxed focus:bg-white focus:ring-4 focus:ring-blue-500/5 transition-all outline-none resize-none"
+
+                              {/* Secondary Image */}
+                              <div className="space-y-3">
+                                 <label className="text-xs font-black text-blue-600 uppercase tracking-[0.2em] ml-1">Overlay Architecture</label>
+                                 <div className="relative aspect-square rounded-[2.5rem] overflow-hidden border-2 border-dashed border-gray-200 bg-gray-50 group">
+                                    {data.hero?.secondaryImage ? (
+                                       <Image src={data.hero.secondaryImage} alt="Secondary" fill className="object-cover" />
+                                    ) : (
+                                       <div className="absolute inset-0 flex items-center justify-center text-gray-300"><ImageIcon size={48} /></div>
+                                    )}
+                                    <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-all cursor-pointer flex items-center justify-center">
+                                       <label className="cursor-pointer bg-white/90 p-4 rounded-2xl shadow-xl opacity-0 group-hover:opacity-100 transition-opacity">
+                                          <Upload className="text-blue-600" />
+                                          <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, "hero", "secondaryImage")} />
+                                       </label>
+                                    </div>
+                                 </div>
+                                 <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest text-center">Bottom-right overlap image</p>
+                              </div>
+                           </div>
+
+                           <div className="grid md:grid-cols-2 gap-10 pt-10 border-t border-gray-50">
+                              {/* Card 1 */}
+                              <div className="space-y-4 bg-gray-50/50 p-6 rounded-[2rem] border border-gray-100">
+                                 <h4 className="text-sm font-black text-gray-900 uppercase tracking-widest ml-1 mb-2">Floating Card 1 (Top-Left)</h4>
+                                 <Input
+                                    label="Card Label"
+                                    value={data.hero?.card1?.title || ""}
+                                    onChange={(e) => handleNestedChange("hero", "card1", "title", e.target.value)}
+                                    placeholder="e.g. Experience"
+                                 />
+                                 <Input
+                                    label="Card Value"
+                                    value={data.hero?.card1?.value || ""}
+                                    onChange={(e) => handleNestedChange("hero", "card1", "value", e.target.value)}
+                                    placeholder="e.g. 15+ Years"
+                                 />
+                              </div>
+
+                              {/* Card 2 */}
+                              <div className="space-y-4 bg-gray-50/50 p-6 rounded-[2rem] border border-gray-100">
+                                 <h4 className="text-sm font-black text-gray-900 uppercase tracking-widest ml-1 mb-2">Floating Card 2 (Bottom-Left)</h4>
+                                 <Input
+                                    label="Card Label"
+                                    value={data.hero?.card2?.title || ""}
+                                    onChange={(e) => handleNestedChange("hero", "card2", "title", e.target.value)}
+                                    placeholder="e.g. Architecture"
+                                 />
+                                 <Input
+                                    label="Card Value"
+                                    value={data.hero?.card2?.value || ""}
+                                    onChange={(e) => handleNestedChange("hero", "card2", "value", e.target.value)}
+                                    placeholder="e.g. 100+ Projects"
                                  />
                               </div>
                            </div>

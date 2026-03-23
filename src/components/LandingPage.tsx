@@ -17,6 +17,8 @@ import {
   SlidersHorizontal,
   Star,
   Briefcase,
+  Award,
+  Home,
 } from "lucide-react";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
@@ -230,125 +232,270 @@ export default function LandingPage({ initialData }: { initialData: any }) {
       <Navbar navData={data} onCategorySelect={setSelectedCategory} />
 
       {/* ───────────────────────── HERO SECTION ───────────────────────── */}
-      {/* ───────────────────────── HERO SECTION ───────────────────────── */}
       <section
         id="home"
-        className="relative bg-white"
+        className="relative overflow-hidden"
+        style={{ background: "#e8eef8", minHeight: "520px" }}
       >
-        {/* Full Viewport Background Area */}
-        <div className="relative h-screen min-h-[700px] w-full overflow-hidden">
-          {/* Background Layer */}
-          <div className="absolute inset-0 z-0 bg-[#f8fafc]">
-            <Image
-              src={data.hero?.image || "/hero_replica_bg.png"}
-              alt="Hero Background"
-              fill
-              className="object-cover object-top scale-110 lg:scale-100 transition-transform duration-1000"
-              priority
-            />
+        {/* ─── LARGE WHITE ORGANIC BLOB (right side) ─── */}
+        {/* Outer soft halo */}
+        <div
+          className="absolute z-0 pointer-events-none"
+          style={{
+            top: "-20%",
+            right: "-18%",
+            width: "72%",
+            height: "145%",
+            background: "rgba(245,249,255,0.55)",
+            borderRadius: "50%",
+            filter: "blur(2px)",
+          }}
+        />
+        {/* Main white blob */}
+        <div
+          className="absolute z-0 pointer-events-none"
+          style={{
+            top: "-15%",
+            right: "-12%",
+            width: "62%",
+            height: "135%",
+            background: "white",
+            borderRadius: "50%",
+          }}
+        />
 
-            {/* Blue Geometric Decorations */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <div className="absolute -top-10 -right-10 w-96 h-96 opacity-40">
-                <svg viewBox="0 0 100 100" className="w-full h-full fill-none stroke-[#2563eb]" strokeWidth="0.5">
-                  <path d="M 100,0 L 0,100 M 100,20 L 20,100 M 100,40 L 40,100" />
-                </svg>
-              </div>
-              <div className="absolute bottom-10 -right-20 w-80 h-80 opacity-60">
-                <svg viewBox="0 0 100 100" className="w-full h-full stroke-[#2563eb]" strokeWidth="1" fill="none">
-                  <path d="M 100,100 L 0,0 M 100,70 L 30,0" />
-                </svg>
-              </div>
-            </div>
-          </div>
+        {/* ─── SUBTLE LINE GRID (left side) ─── */}
+        <div
+          className="absolute z-0 pointer-events-none"
+          style={{
+            top: 0,
+            left: 0,
+            width: "50%",
+            height: "100%",
+            backgroundImage:
+              "linear-gradient(to right, rgba(180,195,220,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(180,195,220,0.35) 1px, transparent 1px)",
+            backgroundSize: "52px 52px",
+          }}
+        />
 
-          {/* Content Layer (Fold 1) */}
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex justify-end items-start pt-32">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="w-full max-w-sm bg-white/95 backdrop-blur-md p-8 md:p-10 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)] border border-gray-100 mr-0 md:mr-4"
+        {/* ─── CONTENT ─── */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 flex flex-col md:flex-row items-center py-16 md:py-0" style={{ minHeight: "520px" }}>
+
+          {/* LEFT: TEXT */}
+          <motion.div
+            className="w-full md:w-[45%] flex flex-col gap-6 py-12 md:py-24"
+            initial="hidden"
+            animate="visible"
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.18 } } }}
+          >
+            <motion.h1
+              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
+              style={{
+                fontFamily: "'Georgia', 'Playfair Display', serif",
+                fontWeight: 700,
+                fontSize: "clamp(2rem, 5vw, 3.25rem)",
+                lineHeight: 1.15,
+                color: "#1a2a4a",
+                letterSpacing: "-0.5px",
+              }}
             >
-              <h1 className="text-2xl md:text-3xl font-extrabold text-[#2563eb] leading-[1.3] mb-6 tracking-tight">
-                {data.hero?.title || "Build Your Dream Home with Trusted Construction Experts."}
-              </h1>
-              <p className="text-xs md:text-sm text-gray-500 mb-10 leading-relaxed font-medium">
-                {data.hero?.subtitle || "We provide high-quality residential and commercial construction services with experienced engineers and modern technology."}
-              </p>
-              <div className="flex flex-col gap-3">
-                <a
-                  href="#projects"
-                  className="w-full py-3.5 bg-[#4285f4] text-white hover:bg-[#3b71db] font-extrabold text-xs rounded-xl transition-all shadow-lg shadow-blue-500/25 active:scale-95 transform text-center"
-                >
-                  View Projects
-                </a>
-                <a
-                  href="#contact"
-                  className="w-full py-3.5 bg-white text-[#4285f4] font-extrabold text-xs rounded-xl transition-all border-2 border-[#4285f4]/30 hover:bg-[#f0f7ff] active:scale-95 transform text-center"
-                >
-                  Contact Us
-                </a>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+              {data.hero?.title || "Websites for architects and builders"}
+            </motion.h1>
 
-        {/* ───────────────────── HIGH-QUALITY CONSTRUCTION SERVICES (Part of Hero) ───────────────────── */}
-        <div className="relative z-10 bg-white pt-16 pb-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
+            <motion.p
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+              style={{ fontSize: "0.95rem", color: "#6b7a8d", lineHeight: 1.6, maxWidth: "320px" }}
             >
-              <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-5">
-                High-Quality Construction Services
-              </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto text-xs md:text-sm font-medium leading-relaxed">
-                With over 15 years of experience, we specialize in residential and
-                commercial projects, delivering superior quality and craftsmanship
-                that stand the test of time.
-              </p>
-            </motion.div>
+              {data.hero?.subtitle || "Showcase your work, build trust and capture enquiries."}
+            </motion.p>
 
-            <div className="grid md:grid-cols-3 gap-10">
-              {services.map((service: any, i: number) => (
+            <motion.div
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+            >
+              <a
+                href="#contact"
+                className="inline-block bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold text-sm px-8 py-4 rounded-xl transition-all shadow-lg shadow-blue-500/20 transform hover:-translate-y-0.5 active:scale-95 no-underline"
+              >
+                Get Started
+              </a>
+            </motion.div>
+          </motion.div>
+
+            {/* LAYERED ARCHITECTURAL COMPOSITION */}
+            <motion.div
+              className="w-full md:w-[65%] flex justify-center md:justify-end items-center relative"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              style={{ minHeight: "600px" }}
+            >
+              {/* 1. PRIMARY BUILDING CUTOUT (Center) */}
+              <motion.div
+                className="relative z-10 flex justify-center items-center"
+                initial={{ opacity: 0, scale: 0.85, x: 20, y: 30 }}
+                animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                style={{ width: "100%", maxWidth: "580px" }}
+              >
+                {/* Glow behind primary */}
+                <div className="absolute inset-0 bg-white rounded-full opacity-[0.06] scale-[0.8] blur-3xl z-0" />
+                
                 <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  whileHover={{ y: -12, transition: { duration: 0.3 } }}
-                  transition={{ duration: 0.6, delay: i * 0.12 }}
-                  className="group bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_45px_100px_-20px_rgba(0,0,0,0.12)] border border-gray-100 flex flex-col transition-all duration-500"
+                  animate={{ y: [0, -20, 0], rotateY: [0, 2, 0, -2, 0] }}
+                  transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ filter: "drop-shadow(0 40px 100px rgba(0,0,0,0.14))" }}
+                  className="bg-white rounded-full p-3 overflow-hidden"
                 >
-                  <div className="relative h-72 overflow-hidden">
+                  <div className="w-full h-full bg-white rounded-full flex justify-center items-center overflow-hidden">
                     <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      src={data.hero?.primaryImage || "/building_cutout.png"}
+                      alt="Modern architectural masterpiece"
+                      width={1000}
+                      height={1000}
+                      className="w-[110%] h-auto object-contain mix-blend-multiply brightness-[1.03]"
+                      priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  </div>
-                  <div className="p-8 flex flex-col flex-1">
-                    <h3 className="text-xl font-extrabold text-black mb-3 group-hover:text-[#2563eb] transition-colors duration-300">
-                      {service.title}
-                    </h3>
-                    <p className="text-gray-400 text-xs leading-relaxed mb-8 flex-1">
-                      {service.description}
-                    </p>
-                    <a
-                      href="#projects"
-                      className="w-full py-4 bg-[#4285f4] text-white font-bold text-xs rounded-xl hover:bg-[#3b71db] transition-all text-center shadow-lg shadow-blue-500/20 active:scale-95"
-                    >
-                      View All Projects
-                    </a>
                   </div>
                 </motion.div>
-              ))}
-            </div>
+              </motion.div>
+
+              {/* 2. SECONDARY BUILDING CUTOUT (Bottom-Right) */}
+              <motion.div
+                className="absolute z-20"
+                style={{ bottom: "5%", right: "-5%", width: "45%", maxWidth: "320px" }}
+                initial={{ opacity: 0, scale: 0.7, x: 50, y: 50 }}
+                animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                transition={{ duration: 1.2, ease: "easeOut", delay: 0.5 }}
+              >
+                <motion.div
+                  animate={{ y: [0, -15, 0], rotateY: [0, -4, 0, 4, 0] }}
+                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+                  style={{ filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.12))" }}
+                  className="bg-white rounded-full p-2 overflow-hidden"
+                >
+                  <div className="w-full h-full bg-white rounded-full flex justify-center items-center overflow-hidden">
+                    <Image
+                      src={data.hero?.secondaryImage || "/building_cutout_v2.png"}
+                      alt="Modern villa project"
+                      width={600}
+                      height={600}
+                      className="w-[115%] h-auto object-contain mix-blend-multiply brightness-[1.02]"
+                    />
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* 3. FLOATING TEXT CARD (Top-Right) */}
+              <motion.div
+                className="absolute z-30 pointer-events-none"
+                style={{ top: "10%", right: "-5%" }}
+                initial={{ opacity: 0, x: 50, scale: 0.8 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
+              >
+                <motion.div
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  className="bg-white/95 backdrop-blur-xl border border-white/50 shadow-xl px-4 py-2.5 rounded-2xl flex items-center gap-3"
+                >
+                  <div className="text-[#2563eb]">
+                    <Award size={20} strokeWidth={2} />
+                  </div>
+                  <div>
+                    <div className="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-none mb-0.5">
+                      {data.hero?.card1?.title || "Experience"}
+                    </div>
+                    <div className="text-base font-bold text-[#1a5a4a] leading-none">
+                      {data.hero?.card1?.value || "15+ Years"}
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* 4. FLOATING TEXT CARD (Bottom-Left) */}
+              <motion.div
+                className="absolute z-30 pointer-events-none"
+                style={{ bottom: "15%", left: "0%" }}
+                initial={{ opacity: 0, x: -60, scale: 0.8 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                transition={{ duration: 1, delay: 1, ease: "easeOut" }}
+              >
+                <motion.div
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+                  className="bg-white/95 backdrop-blur-xl border border-white/50 shadow-xl px-4 py-2.5 rounded-2xl flex items-center gap-3"
+                >
+                  <div className="text-[#1a5a4a]">
+                    <Home size={20} strokeWidth={2} />
+                  </div>
+                  <div>
+                    <div className="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-none mb-0.5">
+                      {data.hero?.card2?.title || "Architecture"}
+                    </div>
+                    <div className="text-base font-bold text-[#1a5a4a] leading-none">
+                      {data.hero?.card2?.value || "100+ Projects"}
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+        </div>
+      </section>
+
+      {/* ───────────────────── HIGH-QUALITY CONSTRUCTION SERVICES ───────────────────── */}
+      <section id="services" className="relative z-10 bg-white pt-16 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-5 uppercase tracking-tight">
+              High-Quality Construction Services
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-xs md:text-sm font-medium leading-relaxed">
+              With over 15 years of experience, we specialize in residential and
+              commercial projects, delivering superior quality and craftsmanship
+              that stand the test of time.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-10">
+            {services.map((service: any, i: number) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -12, transition: { duration: 0.3 } }}
+                transition={{ duration: 0.6, delay: i * 0.12 }}
+                className="group bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_45px_100px_-20px_rgba(0,0,0,0.12)] border border-gray-100 flex flex-col transition-all duration-500"
+              >
+                <div className="relative h-72 overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </div>
+                <div className="p-8 flex flex-col flex-1">
+                  <h3 className="text-xl font-extrabold text-black mb-3 group-hover:text-[#2563eb] transition-colors duration-300">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-400 text-xs leading-relaxed mb-8 flex-1">
+                    {service.description}
+                  </p>
+                  <a
+                    href="#projects"
+                    className="w-full py-4 bg-[#2563eb] text-white font-bold text-xs rounded-xl hover:bg-[#1d4ed8] transition-all text-center shadow-lg shadow-blue-500/20 active:scale-95"
+                  >
+                    View All Projects
+                  </a>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -594,24 +741,28 @@ export default function LandingPage({ initialData }: { initialData: any }) {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mb-10"
           >
-            <div className="relative flex flex-col md:flex-row items-stretch md:items-center gap-4 border-2 border-[#2563eb]/40 rounded-xl bg-white shadow-sm p-2">
-              <Input
-                label="Search projects..."
+            {/* Search bar with filter button inside — always inline */}
+            <div className="relative border-2 border-[#2563eb]/40 rounded-xl bg-white shadow-sm flex items-center" ref={filterRef}>
+              {/* Search icon */}
+              <span className="pl-4 text-gray-400 shrink-0">
+                <Search size={18} />
+              </span>
+              {/* Search input */}
+              <input
+                placeholder="Search projects..."
                 value={projectSearch}
                 onChange={(e) => setProjectSearch(e.target.value)}
-                leftIcon={<Search size={18} />}
-                className="bg-transparent border-none ring-0 shadow-none !min-h-0"
+                className="flex-1 bg-transparent border-none outline-none px-3 py-3 text-sm text-gray-700 placeholder-gray-400"
               />
-
-              {/* Dropdown Filter */}
-              <div className="relative" ref={filterRef}>
+              {/* Filter button — always on the right inside the bar */}
+              <div className="relative shrink-0 pr-1">
                 <button
                   onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className="flex items-center justify-center w-12 h-12 rounded-lg bg-[#eff6ff] text-[#2563eb] transition-all hover:bg-blue-100 shrink-0"
+                  className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#eff6ff] text-[#2563eb] transition-all hover:bg-blue-100"
                   aria-label="Filter projects"
                   title={`Filter: ${selectedCategory}`}
                 >
-                  <SlidersHorizontal size={20} className={isFilterOpen ? "rotate-90" : ""} />
+                  <SlidersHorizontal size={18} className={isFilterOpen ? "rotate-90 transition-transform" : "transition-transform"} />
                 </button>
 
                 <AnimatePresence>
@@ -621,7 +772,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 5 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute top-full right-0 mt-2 w-full md:w-56 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden py-1 z-20"
+                      className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden py-1 z-20"
                     >
                       {projectCategories.map((cat) => (
                         <button

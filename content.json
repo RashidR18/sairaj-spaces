@@ -12,7 +12,16 @@
   "hero": {
     "title": "Build Your Dream Home with Trusted Construction Experts.",
     "subtitle": "We provide high-quality residential and commercial construction services with experienced engineers and modern technology.",
-    "image": "/content_1773833405237.png"
+    "primaryImage": "/building_cutout.png",
+    "secondaryImage": "/building_cutout_v2.png",
+    "card1": {
+      "title": "Experience",
+      "value": "10+ Years"
+    },
+    "card2": {
+      "title": "Architecture",
+      "value": "50+ Projects"
+    }
   },
   "about": {
     "title": "About Sairaj Spaces",
