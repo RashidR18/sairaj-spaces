@@ -664,6 +664,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
@@ -682,6 +683,7 @@ export default function LandingPage({ initialData }: { initialData: any }) {
                 key={i}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.6, delay: i * 0.12 }}
                 className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 text-center"
               >
